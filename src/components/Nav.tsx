@@ -1,12 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import {
- Home, Smile, MessageCircle, Activity, Clock, User, Wind, Leaf,
-  Settings, HelpCircle, Menu, X
+  Home, Smile, MessageCircle, Activity, Clock, User, Wind, Leaf,
+  Settings, HelpCircle, Menu, X, Mic
 } from 'lucide-react'
 import { useState } from 'react'
 
 const mainLinks = [
   { to: '/dashboard', icon: Home,          label: 'Home' },
+  { to: '/voice',     icon: Mic,           label: 'Voice Agent' },
   { to: '/mood',      icon: Smile,         label: 'Check-in' },
   { to: '/companion', icon: MessageCircle, label: 'AI Companion' },
   { to: '/breathing', icon: Wind,          label: 'Breathe' },
@@ -18,9 +19,9 @@ const mainLinks = [
 
 const bottomLinks = [
   { to: '/dashboard', icon: Home,          label: 'Home' },
+  { to: '/voice',     icon: Mic,           label: 'Voice' },
   { to: '/mood',      icon: Smile,         label: 'Check-in' },
   { to: '/companion', icon: MessageCircle, label: 'Aura' },
-  { to: '/breathing', icon: Wind,          label: 'Breathe' },
   { to: '/profile',   icon: User,          label: 'Profile' },
 ]
 

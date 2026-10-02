@@ -4,7 +4,7 @@ import { useApp } from '../store'
 import { Button } from '../components/Button'
 import { MoodBadge } from '../components/MoodBadge'
 import { getAIResponse } from '../services/aiService'
-import { Send, Trash2, Loader2, Wind, Leaf, Sparkles, BookOpen, AlertCircle } from 'lucide-react'
+import { Send, Trash2, Loader2, Wind, Leaf, Sparkles, BookOpen, AlertCircle, Mic } from 'lucide-react'
 import type { ChatMessage } from '../types'
 
 // ── Quick-action chips shown above the input ──────────────────────────────────
@@ -207,8 +207,15 @@ export function Companion() {
             <p className="text-xs text-emerald-500 leading-tight">● Online · FeelSync AI</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {currentMood && <MoodBadge mood={currentMood.mood} size="sm" />}
+          <button
+            onClick={() => navigate('/voice')}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold hover:bg-violet-200 transition-colors"
+            title="Switch to Voice Agent"
+          >
+            <Mic size={14} /> Voice
+          </button>
           <button
             onClick={handleClear}
             className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"

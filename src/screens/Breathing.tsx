@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../store'
 import { Button } from '../components/Button'
-import { Play, Pause, RotateCcw, CheckCircle, Wind, ArrowRight, Minus, Plus } from 'lucide-react'
+import { Play, Pause, RotateCcw, CheckCircle, Wind, ArrowRight, Minus, Plus, Volume2, VolumeX } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -151,12 +151,30 @@ export function Breathing() {
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
   }
 
+  const [voiceGuided, setVoiceGuided] = useState(false)
+
+  const speakCue = (text: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+      const u = new SpeechSynthesisUtterance(text)
+      u.rate = 0.95
+      window.speechSynthesis.speak(u)
+    }
+  }
+
   const advance = useCallback((p: Phase, r: number) => {
     const pat = patternRef.current
     phaseRef.current = p
     roundRef.current = r
     setPhase(p)
     setRound(r)
+
+    if (voiceGuided) {
+      if (p === 'inhale') speakCue('Breathe in')
+      else if (p === 'hold') speakCue('Hold')
+      else if (p === 'exhale') speakCue('Breathe out')
+      else if (p === 'done') speakCue('Session complete')
+    }
 
     const duration =
       p === 'inhale' ? pat.inhale :
@@ -253,9 +271,23 @@ export function Breathing() {
     <div className="flex-1 flex flex-col items-center p-5 md:p-8 pb-24 md:pb-8 max-w-lg mx-auto w-full">
 
       {/* Header */}
-      <div className="self-start mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Guided Breathing</h1>
-        <p className="text-gray-500 text-sm">Follow the circle. Let your breath lead.</p>
+      <div className="w-full flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Guided Breathing</h1>
+          <p className="text-gray-500 text-sm">Follow the circle. Let your breath lead.</p>
+        </div>
+        <button
+          onClick={() => setVoiceGuided(v => !v)}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+            voiceGuided
+              ? 'bg-violet-100 text-violet-700 border-violet-300'
+              : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+          }`}
+          title="Toggle spoken voice cues during session"
+        >
+          {voiceGuided ? <Volume2 size={14} /> : <VolumeX size={14} />}
+          {voiceGuided ? 'Voice On' : 'Voice Off'}
+        </button>
       </div>
 
       {/* ── Pattern selector ── */}
