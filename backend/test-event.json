@@ -1,0 +1,7 @@
+{
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"message\":\"I'm feeling a bit anxious today.\",\"currentMood\":\"low\",\"conversationHistory\":[]}"
+}

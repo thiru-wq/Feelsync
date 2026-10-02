@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  /* AuraWell Design System - Premium Wellness Palette */
+  --color-bg: #FAFAF8;
+  --color-bg-warm: #F8F6F3;
+  --color-surface: #FFFFFF;
+  
+  /* Primary - Soft Lavender */
+  --color-lavender-50: #F5F3FF;
+  --color-lavender-100: #EDE9FE;
+  --color-lavender-200: #DDD6FE;
+  --color-lavender-300: #C4B5FD;
+  --color-lavender-400: #A78BFA;
+  --color-lavender-500: #8B5CF6;
+  --color-lavender-600: #7C3AED;
+  --color-lavender-700: #6D28D9;
+  
+  /* Soft Blue */
+  --color-blue-soft: #BFDBFE;
+  --color-blue-light: #EFF6FF;
+  
+  /* Mint */
+  --color-mint-50: #ECFDF5;
+  --color-mint-100: #D1FAE5;
+  --color-mint-200: #A7F3D0;
+  --color-mint-300: #6EE7B7;
+  
+  /* Peach */
+  --color-peach-50: #FFF7ED;
+  --color-peach-100: #FFEDD5;
+  --color-peach-200: #FED7AA;
+  
+  /* Text */
+  --color-text: #1E1B2E;
+  --color-text-muted: #6B7280;
+  --color-text-light: #9CA3AF;
+  --color-border: #E5E7EB;
+  
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  
+  /* Spacing & Radius */
+  --radius-card: 1.5rem;
+  --radius-button: 1rem;
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* ─── Animations ───────────────────────────────────────────────────────────── */
+
+@keyframes breathe-in {
+  0%   { transform: scale(1);    opacity: 0.7; }
+  100% { transform: scale(1.45); opacity: 1;   }
+}
+@keyframes breathe-out {
+  0%   { transform: scale(1.45); opacity: 1;   }
+  100% { transform: scale(1);    opacity: 0.7; }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: 0.35; }
+  50%  { transform: scale(1.18); opacity: 0.12; }
+  100% { transform: scale(1);    opacity: 0.35; }
+}
+@keyframes wave {
+  0%,100% { transform: scaleY(0.4); }
+  50%      { transform: scaleY(1);   }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes done-pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.08); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.animate-breathe-in  { animation: breathe-in  var(--duration,4s) ease-in-out forwards; }
+.animate-breathe-out { animation: breathe-out var(--duration,6s) ease-in-out forwards; }
+.animate-pulse-ring  { animation: pulse-ring 2.8s ease-in-out infinite; }
+.animate-wave        { animation: wave 1.2s ease-in-out infinite; }
+.animate-fade-in     { animation: fade-in 0.35s ease both; }
+.animate-spin-slow   { animation: spin-slow 8s linear infinite; }
+.animate-done-pop    { animation: done-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-float       { animation: float 6s ease-in-out infinite; }
+
+/* ─── Utility Classes ──────────────────────────────────────────────────────── */
+
+.gradient-lavender {
+  background: linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 50%, #EDE9FE 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #F5F3FF 0%, #EFF6FF 50%, #ECFDF5 100%);
+}
+
+.gradient-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+.transition-smooth {
+  transition: all var(--transition-base);
+}
+
+/* ─── Reduced Motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe-in,
+  .animate-breathe-out,
+  .animate-pulse-ring,
+  .animate-wave,
+  .animate-fade-in,
+  .animate-spin-slow,
+  .animate-done-pop,
+  .animate-float {
+    animation: none !important;
+  }
+  .breathing-circle { transition: none !important; }
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Focus States ─────────────────────────────────────────────────────────── */
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-lavender-500);
+  outline-offset: 2px;
+}
+
+/* ─── Card Hover Effects ───────────────────────────────────────────────────── */
+
+.card-hover {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
