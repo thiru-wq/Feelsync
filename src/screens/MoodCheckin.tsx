@@ -12,16 +12,16 @@ const POST_SAVE_SUGGESTIONS: Record<Mood, { label: string; icon: typeof Wind; to
   great:     [{ label: 'Talk to Sync Voice', icon: Mic, to: '/voice' }, { label: 'Share with Sync', icon: MessageCircle, to: '/companion' }],
   good:      [{ label: 'Talk to Sync Voice', icon: Mic, to: '/voice' }, { label: 'Share with Sync', icon: MessageCircle, to: '/companion' }],
   okay:      [
-    { label: 'Try 2-min Breathing', icon: Wind,           to: '/breathing' },
-    { label: 'Talk with Voice Agent',    icon: Mic,            to: '/voice' },
+    { label: 'Try 2-min Breathing', icon: Wind, to: '/breathing' },
+    { label: 'Talk with Voice Agent', icon: Mic, to: '/voice' },
   ],
   low:       [
-    { label: 'Try 2-min Breathing', icon: Wind,           to: '/breathing' },
-    { label: 'Talk with Voice Agent',    icon: Mic,            to: '/voice' },
+    { label: 'Try 2-min Breathing', icon: Wind, to: '/breathing' },
+    { label: 'Talk with Voice Agent', icon: Mic, to: '/voice' },
   ],
   difficult: [
-    { label: 'Try 2-min Breathing', icon: Wind,           to: '/breathing' },
-    { label: 'Talk with Voice Agent',    icon: Mic,            to: '/voice' },
+    { label: 'Try 2-min Breathing', icon: Wind, to: '/breathing' },
+    { label: 'Talk with Voice Agent', icon: Mic, to: '/voice' },
   ],
 }
 
@@ -43,14 +43,14 @@ function ConfirmationScreen({ mood, onDone }: { mood: Mood; onDone: () => void }
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-fade-in max-w-sm mx-auto w-full">
-      <CheckCircle size={56} className="text-emerald-500 mb-4" />
+      <CheckCircle size={52} className="text-emerald-500 mb-4" />
       <h2 className="text-2xl font-bold text-gray-900 mb-1">Check-in saved!</h2>
-      <p className="text-gray-500 text-sm mb-6">
+      <p className="text-gray-500 text-sm mb-5">
         You're feeling <span className={`font-semibold ${cfg.text}`}>{cfg.label.toLowerCase()}</span> right now.
         {' '}That's okay — every feeling is valid.
       </p>
 
-      <div className={`w-16 h-16 rounded-full ${cfg.bg} flex items-center justify-center text-4xl mb-8 shadow-sm`}>
+      <div className={`w-14 h-14 rounded-full ${cfg.bg} flex items-center justify-center text-3xl mb-6 shadow-xs`}>
         {cfg.emoji}
       </div>
 
@@ -64,22 +64,25 @@ function ConfirmationScreen({ mood, onDone }: { mood: Mood; onDone: () => void }
               <button
                 key={to}
                 onClick={() => navigate(to)}
-                className="flex items-center justify-between w-full bg-white border border-gray-150 rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 hover:border-violet-300 hover:bg-violet-50 transition-colors shadow-sm"
+                className="flex items-center justify-between w-full bg-white border border-gray-100 rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 hover:border-violet-200 hover:bg-violet-50 transition-colors shadow-xs"
               >
                 <span className="flex items-center gap-2">
-                  <Icon size={16} className="text-violet-600" />
+                  <Icon size={15} className="text-violet-600" />
                   {label}
                 </span>
-                <ChevronRight size={16} className="text-gray-400" />
+                <ChevronRight size={15} className="text-gray-300" />
               </button>
             ))}
           </div>
         </div>
       )}
 
-      <Button variant="secondary" className="w-full" onClick={onDone}>
-        Back to Dashboard
-      </Button>
+      {/* Separator before action */}
+      <div className="w-full border-t border-gray-100 pt-4">
+        <Button variant="secondary" className="w-full" onClick={onDone}>
+          Back to Dashboard
+        </Button>
+      </div>
     </div>
   )
 }
@@ -160,36 +163,36 @@ export function MoodCheckin() {
   }
 
   return (
-    <div className="flex-1 p-4 md:p-8 pb-24 md:pb-8 max-w-lg mx-auto w-full">
+    <div className="flex-1 p-4 md:p-8 pt-20 md:pt-8 pb-28 md:pb-8 max-w-lg mx-auto w-full" style={{ animation: 'page-enter 0.55s cubic-bezier(0.22,1,0.36,1) both' }}>
 
       {/* Top Bar */}
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-700 transition-colors"
         >
-          <ArrowLeft size={16} /> Back
+          <ArrowLeft size={15} /> Back
         </button>
         <button
           onClick={() => navigate('/dashboard')}
-          className="text-xs font-semibold text-gray-400 hover:text-gray-600"
+          className="text-xs font-medium text-gray-400 hover:text-gray-600 transition-colors"
         >
-          Skip for now
+          Not now
         </button>
       </div>
 
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1 tracking-tight">How are you feeling?</h1>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           Take a quiet moment to tune in with yourself.
         </p>
       </div>
 
-      {/* ── Mood selector cards ── */}
+      {/* ── Mood selector — 3 cols on mobile, 5 on sm+ ── */}
       <fieldset className="mb-8">
         <legend className="sr-only">Select your current mood</legend>
-        <div className="grid grid-cols-5 gap-2 sm:gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
           {MOODS.map(m => {
             const c = moodConfig[m]
             const active = selected === m
@@ -200,16 +203,30 @@ export function MoodCheckin() {
                 onClick={() => setSelected(m)}
                 aria-pressed={active}
                 aria-label={`${c.label} — ${c.description}`}
-                className={`flex flex-col items-center gap-2 py-4 px-1 rounded-2xl border-2 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-violet-500 ${
+                className={`flex flex-col items-center gap-2 py-4 px-1 rounded-2xl border-2 focus-visible:outline-2 focus-visible:outline-violet-500 ${
                   active
-                    ? `${c.border} ${c.bg} scale-105 shadow-md`
-                    : 'border-gray-100 bg-white hover:border-gray-300 hover:shadow-sm'
+                    ? `${c.border} ${c.bg} shadow-md`
+                    : 'border-gray-100 bg-white hover:border-gray-200 hover:shadow-xs'
                 }`}
+                style={{
+                  transform: active ? 'scale(1.06)' : 'scale(1)',
+                  transition: 'transform 320ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 280ms ease, border-color 200ms ease',
+                  boxShadow: active ? `0 8px 24px rgba(0,0,0,0.10), 0 0 0 3px ${c.border}40` : undefined,
+                }}
               >
-                <span className="text-3xl leading-none" role="img" aria-hidden="true">
+                <span
+                  className="text-3xl leading-none"
+                  role="img"
+                  aria-hidden="true"
+                  style={{
+                    transform: active ? 'scale(1.15)' : 'scale(1)',
+                    transition: 'transform 320ms cubic-bezier(0.34,1.56,0.64,1)',
+                    display: 'block',
+                  }}
+                >
                   {c.emoji}
                 </span>
-                <span className={`text-xs font-bold leading-tight text-center ${active ? c.text : 'text-gray-600'}`}>
+                <span className={`text-xs font-bold leading-tight text-center ${active ? c.text : 'text-gray-500'}`}>
                   {c.label}
                 </span>
               </button>
@@ -226,8 +243,8 @@ export function MoodCheckin() {
         </div>
       </fieldset>
 
-      {/* ── Optional Note Field with "Speak Instead" Dictation ── */}
-      <div className="mb-8 bg-white border border-gray-150 rounded-2xl p-4 shadow-sm">
+      {/* ── Optional Note Field ── */}
+      <div className="mb-8 bg-white border border-gray-100 rounded-2xl p-4 shadow-xs">
         <div className="flex items-center justify-between mb-2">
           <label htmlFor="mood-note" className="block text-sm font-semibold text-gray-800">
             Add a reflection <span className="text-gray-400 font-normal text-xs">(optional)</span>
@@ -237,11 +254,11 @@ export function MoodCheckin() {
             onClick={toggleDictation}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${
               isDictating
-                ? 'bg-rose-100 text-rose-700 animate-pulse'
+                ? 'bg-rose-100 text-rose-700'
                 : 'bg-violet-100 text-violet-700 hover:bg-violet-200'
             }`}
           >
-            {isDictating ? <MicOff size={13} /> : <Mic size={13} />}
+            {isDictating ? <MicOff size={12} /> : <Mic size={12} />}
             {isDictating ? 'Stop Speaking' : 'Speak instead'}
           </button>
         </div>
@@ -253,7 +270,7 @@ export function MoodCheckin() {
           placeholder="What's contributing to how you feel today?"
           rows={3}
           maxLength={500}
-          className="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-violet-400 bg-gray-50/50 focus:bg-white transition-colors"
+          className="w-full border border-gray-100 rounded-xl px-3.5 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-violet-400 bg-gray-50/50 focus:bg-white transition-colors"
         />
         <div className="flex justify-between items-center mt-2">
           <p className="text-[11px] text-gray-400">
@@ -266,7 +283,7 @@ export function MoodCheckin() {
       {/* ── Save Action ── */}
       <Button
         size="lg"
-        className="w-full shadow-md shadow-violet-200"
+        className="w-full shadow-sm shadow-violet-200"
         disabled={!selected || saving}
         onClick={save}
         aria-label="Save mood check-in"
@@ -277,19 +294,19 @@ export function MoodCheckin() {
       {/* ── Recent Check-ins ── */}
       {recentMoods.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
             Recent Check-ins
           </h2>
           <div className="flex flex-col gap-2">
             {recentMoods.map(entry => (
               <div
                 key={entry.id}
-                className="flex items-center justify-between gap-3 bg-white rounded-2xl border border-gray-100 px-4 py-3 shadow-sm"
+                className="flex items-center justify-between gap-3 bg-white rounded-2xl border border-gray-100 px-4 py-3 shadow-xs"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <MoodBadge mood={entry.mood} size="sm" />
                   {entry.note && (
-                    <p className="text-xs text-gray-500 truncate italic">"{entry.note}"</p>
+                    <p className="text-xs text-gray-400 truncate italic">"{entry.note}"</p>
                   )}
                 </div>
                 <span className="text-[11px] text-gray-400 shrink-0 font-medium">{timeAgo(entry.timestamp)}</span>
@@ -301,4 +318,3 @@ export function MoodCheckin() {
     </div>
   )
 }
-

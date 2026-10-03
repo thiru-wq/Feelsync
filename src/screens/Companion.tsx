@@ -7,7 +7,7 @@ import { getAIResponse } from '../services/aiService'
 import { Send, Trash2, Loader2, Wind, Leaf, Sparkles, BookOpen, AlertCircle, Mic } from 'lucide-react'
 import type { ChatMessage } from '../types'
 
-// ── Quick-action chips shown above the input ──────────────────────────────────
+// ── Quick-action chips ────────────────────────────────────────────────────────
 const QUICK_ACTIONS = [
   { label: 'Help me relax',              icon: Sparkles, text: 'Help me relax'                        },
   { label: 'Guide me through breathing', icon: Wind,     text: 'Guide me through a breathing exercise' },
@@ -15,7 +15,7 @@ const QUICK_ACTIONS = [
   { label: 'Help me reflect',            icon: BookOpen, text: 'Help me reflect on my day'             },
 ]
 
-// ── Inline bold markdown renderer ─────────────────────────────────────────────
+// ── Inline bold markdown renderer ────────────────────────────────────────────
 function renderContent(text: string) {
   return text.split(/(\*\*[^*]+\*\*)/).map((part, i) =>
     part.startsWith('**') && part.endsWith('**')
@@ -24,7 +24,6 @@ function renderContent(text: string) {
   )
 }
 
-// ── Formats HH:MM ──────────────────────────────────────────────────────────────
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
@@ -41,7 +40,7 @@ function MessageBubble({ msg, onNavigate }: { msg: ChatMessage; onNavigate: (to:
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in`}>
       {!isUser && (
-        <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-base mr-2 shrink-0 mt-0.5 select-none">
+        <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-sm mr-2 shrink-0 mt-0.5 select-none">
           💜
         </div>
       )}
@@ -49,7 +48,7 @@ function MessageBubble({ msg, onNavigate }: { msg: ChatMessage; onNavigate: (to:
         <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
           isUser
             ? 'bg-violet-600 text-white rounded-br-sm'
-            : 'bg-white border border-gray-100 text-gray-800 rounded-bl-sm shadow-sm'
+            : 'bg-gray-50 border border-gray-200 text-gray-800 rounded-bl-sm shadow-xs'
         }`}>
           {renderContent(msg.content)}
         </div>
@@ -64,7 +63,7 @@ function MessageBubble({ msg, onNavigate }: { msg: ChatMessage; onNavigate: (to:
         {showGrounding && (
           <button
             onClick={() => onNavigate('/grounding')}
-            className="self-start flex items-center gap-1.5 mt-0.5 px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-medium hover:bg-green-200 transition-colors"
+            className="self-start flex items-center gap-1.5 mt-0.5 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium hover:bg-emerald-200 transition-colors"
           >
             <Leaf size={12} /> Open Grounding Exercise →
           </button>
@@ -77,16 +76,16 @@ function MessageBubble({ msg, onNavigate }: { msg: ChatMessage; onNavigate: (to:
   )
 }
 
-// ── Typing indicator ───────────────────────────────────────────────────────────
+// ── Typing indicator ──────────────────────────────────────────────────────────
 function TypingIndicator() {
   return (
     <div className="flex items-center gap-2 mb-4 animate-fade-in">
-      <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-base shrink-0">💜</div>
-      <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm flex gap-1 items-center">
+      <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-sm shrink-0">💜</div>
+      <div className="bg-gray-50 border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs flex gap-1.5 items-center">
         {[0, 1, 2].map(i => (
           <span
             key={i}
-            className="w-1.5 h-1.5 rounded-full bg-violet-300 animate-wave inline-block"
+            className="w-2 h-2 rounded-full bg-violet-300 animate-wave inline-block"
             style={{ animationDelay: `${i * 0.15}s` }}
           />
         ))}
@@ -95,7 +94,7 @@ function TypingIndicator() {
   )
 }
 
-// ── Error banner ───────────────────────────────────────────────────────────────
+// ── Error banner ──────────────────────────────────────────────────────────────
 function ErrorBanner({ message, onDismiss }: { message: string; onDismiss: () => void }) {
   return (
     <div className="mx-4 mb-2 flex items-start gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-2.5 text-sm text-red-700 animate-fade-in">
@@ -108,7 +107,7 @@ function ErrorBanner({ message, onDismiss }: { message: string; onDismiss: () =>
   )
 }
 
-// ── Main screen ────────────────────────────────────────────────────────────────
+// ── Main screen ───────────────────────────────────────────────────────────────
 export function Companion() {
   const navigate = useNavigate()
   const { chatHistory, addChatMessage, clearChat, currentMood, addActivity } = useApp()
@@ -119,12 +118,10 @@ export function Companion() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const greeted = useRef(false)
 
-  // Auto-scroll to bottom on new messages
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatHistory, loading])
 
-  // Send greeting once on first mount when chat is empty
   useEffect(() => {
     if (greeted.current || chatHistory.length > 0) return
     greeted.current = true
@@ -138,7 +135,6 @@ export function Companion() {
     })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Core send function — accepts optional override text (used by quick-action chips)
   const send = useCallback(async (overrideText?: string) => {
     const text = (overrideText ?? input).trim()
     if (!text || loading) return
@@ -146,6 +142,10 @@ export function Companion() {
     setInput('')
     setError(null)
     textareaRef.current?.focus()
+    // Reset textarea height
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+    }
 
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
@@ -185,6 +185,14 @@ export function Companion() {
     }
   }
 
+  function handleTextareaInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setInput(e.target.value)
+    // Auto-grow
+    const el = e.target
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }
+
   function handleClear() {
     clearChat()
     greeted.current = false
@@ -199,7 +207,7 @@ export function Companion() {
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-white shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-violet-100 flex items-center justify-center text-base select-none">
+          <div className="w-9 h-9 rounded-full bg-violet-100 flex items-center justify-center text-sm select-none">
             💜
           </div>
           <div>
@@ -208,17 +216,20 @@ export function Companion() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {currentMood && <MoodBadge mood={currentMood.mood} size="sm" />}
+          {/* MoodBadge hidden on mobile to reduce crowding */}
+          <span className="hidden sm:block">
+            {currentMood && <MoodBadge mood={currentMood.mood} size="sm" />}
+          </span>
           <button
             onClick={() => navigate('/voice')}
             className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold hover:bg-violet-200 transition-colors"
             title="Switch to Voice Agent"
           >
-            <Mic size={14} /> Voice
+            <Mic size={13} /> Voice
           </button>
           <button
             onClick={handleClear}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg text-gray-300 hover:text-gray-500 hover:bg-gray-100 transition-colors"
             aria-label="Clear conversation"
             title="Clear conversation"
           >
@@ -229,10 +240,8 @@ export function Companion() {
 
       {/* ── Messages ── */}
       <div className="flex-1 overflow-y-auto px-4 py-5 bg-[#faf9f7]">
-
-        {/* Empty state — only shown before greeting fires */}
         {chatHistory.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center gap-3 opacity-60">
+          <div className="flex flex-col items-center justify-center h-full text-center gap-3 opacity-50">
             <span className="text-4xl">💜</span>
             <p className="text-sm text-gray-500">Starting your session…</p>
           </div>
@@ -243,19 +252,19 @@ export function Companion() {
         <div ref={bottomRef} />
       </div>
 
-      {/* ── Quick-action chips ── */}
+      {/* ── Quick-action chips — horizontal scroll ── */}
       {showQuickActions && (
         <div className="px-4 pt-3 pb-1 bg-white border-t border-gray-50 shrink-0">
           <p className="text-xs text-gray-400 mb-2">Quick actions</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex overflow-x-auto gap-2 pb-1 scrollbar-hide">
             {QUICK_ACTIONS.map(({ label, icon: Icon, text }) => (
               <button
                 key={label}
                 onClick={() => send(text)}
                 disabled={loading}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-violet-200 bg-violet-50 text-violet-700 text-xs font-medium hover:bg-violet-100 transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-violet-200 bg-violet-50 text-violet-700 text-xs font-medium hover:bg-violet-100 transition-colors disabled:opacity-50 shrink-0"
               >
-                <Icon size={12} />
+                <Icon size={11} />
                 {label}
               </button>
             ))}
@@ -283,13 +292,14 @@ export function Companion() {
           <textarea
             ref={textareaRef}
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={handleTextareaInput}
             onKeyDown={handleKeyDown}
             placeholder="Message Sync…"
             rows={1}
             disabled={loading}
             aria-label="Message input"
-            className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-violet-400 max-h-32 disabled:opacity-60 bg-gray-50 focus:bg-white transition-colors"
+            className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-violet-400 max-h-32 disabled:opacity-60 bg-gray-50 focus:bg-white transition-colors overflow-y-auto"
+            style={{ minHeight: '42px' }}
           />
           <Button
             onClick={() => send()}
@@ -298,8 +308,8 @@ export function Companion() {
             className="shrink-0 h-10 w-10 p-0"
           >
             {loading
-              ? <Loader2 size={16} className="animate-spin" />
-              : <Send size={16} />
+              ? <Loader2 size={15} className="animate-spin" />
+              : <Send size={15} />
             }
           </Button>
         </div>

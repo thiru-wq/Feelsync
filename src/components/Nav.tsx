@@ -21,7 +21,7 @@ const bottomLinks = [
   { to: '/dashboard', icon: Home,          label: 'Home' },
   { to: '/voice',     icon: Mic,           label: 'Voice' },
   { to: '/mood',      icon: Smile,         label: 'Check-in' },
-  { to: '/companion', icon: MessageCircle, label: 'Aura' },
+  { to: '/companion', icon: MessageCircle, label: 'Companion' },
   { to: '/profile',   icon: User,          label: 'Profile' },
 ]
 
@@ -36,10 +36,10 @@ function NavItem({ to, icon: Icon, label, onClick, isActive }: {
     <NavLink
       to={to}
       onClick={onClick}
-      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
         isActive
-          ? 'bg-lavender-100 text-lavender-700'
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+          ? 'bg-violet-50 text-violet-700 font-semibold border-l-2 border-violet-600 pl-[10px]'
+          : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800 border-l-2 border-transparent pl-[10px]'
       }`}
     >
       <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
@@ -57,20 +57,20 @@ export function Nav() {
   return (
     <>
       {/* ── Desktop Sidebar ── */}
-      <nav className="hidden md:flex flex-col w-64 shrink-0 bg-white border-r border-gray-100 min-h-screen">
+      <nav className="hidden md:flex flex-col w-56 shrink-0 bg-white border-r border-gray-100 min-h-screen">
         {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-8">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-lavender-400 to-lavender-600 flex items-center justify-center shadow-md">
-            <span className="text-white text-xl">💜</span>
+        <div className="flex items-center gap-3 px-5 py-5">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center shadow-sm">
+            <span className="text-white text-base">💜</span>
           </div>
           <div>
-            <h1 className="font-bold text-xl text-gray-900 tracking-tight">AuraWell</h1>
+            <h1 className="font-bold text-lg text-gray-900 tracking-tight">FeelSync</h1>
             <p className="text-xs text-gray-400">Wellness Companion</p>
           </div>
         </div>
 
         {/* Main Navigation */}
-        <div className="flex-1 px-3 space-y-1">
+        <div className="flex-1 px-3 space-y-0.5">
           {mainLinks.map(link => (
             <NavItem
               key={link.to}
@@ -81,46 +81,46 @@ export function Nav() {
         </div>
 
         {/* Bottom Section */}
-        <div className="px-3 py-6 border-t border-gray-100 space-y-1">
+        <div className="px-3 py-5 border-t border-gray-100 space-y-0.5">
           <NavLink
-            to="/settings"
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+            to="/profile"
+            className="flex items-center gap-3 px-3 py-2.5 pl-[10px] rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors border-l-2 border-transparent"
           >
             <Settings size={18} />
             Settings
           </NavLink>
           <NavLink
-            to="/help"
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+            to="/companion"
+            className="flex items-center gap-3 px-3 py-2.5 pl-[10px] rounded-xl text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-gray-700 transition-colors border-l-2 border-transparent"
           >
             <HelpCircle size={18} />
-            Help
+            Help &amp; Support
           </NavLink>
         </div>
       </nav>
 
       {/* ── Mobile Top Header ── */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 flex items-center justify-between px-5 h-16">
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-5 h-14 shadow-xs">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-lavender-400 to-lavender-600 flex items-center justify-center">
-            <span className="text-white text-base">💜</span>
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center shadow-xs">
+            <span className="text-white text-sm">💜</span>
           </div>
-          <span className="font-bold text-lg text-gray-900 tracking-tight">AuraWell</span>
+          <span className="font-bold text-base text-gray-900 tracking-tight">FeelSync</span>
         </div>
         <button
           onClick={() => setMobileOpen(o => !o)}
           aria-label="Toggle menu"
           className="p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors"
         >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </header>
 
       {/* ── Mobile Slide-Down Drawer ── */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black/10 backdrop-blur-sm" onClick={close}>
+        <div className="md:hidden fixed inset-0 z-40 bg-black/20 backdrop-blur-sm" onClick={close}>
           <div
-            className="absolute top-16 left-0 right-0 bg-white border-b border-gray-100 px-4 py-4 flex flex-col gap-1 shadow-xl animate-fade-in"
+            className="absolute top-14 left-0 right-0 bg-white border-b border-gray-100 px-4 py-3 flex flex-col gap-0.5 shadow-xl animate-fade-in"
             onClick={e => e.stopPropagation()}
           >
             {mainLinks.map(link => (
@@ -136,26 +136,26 @@ export function Nav() {
       )}
 
       {/* ── Mobile Bottom Navigation ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 flex justify-around py-2.5 px-2 z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 flex justify-around py-1.5 px-1 z-50 shadow-lg">
         {bottomLinks.map(({ to, icon: Icon, label }) => {
           const isActive = location.pathname === to
+          const isVoice = to === '/voice'
           return (
             <NavLink
               key={to}
               to={to}
-              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors ${
-                isActive ? 'text-lavender-600' : 'text-gray-400'
-              }`}
+              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all ${
+                isActive
+                  ? 'text-violet-700 font-bold'
+                  : 'text-gray-500 hover:text-gray-800'
+              } ${isVoice && !isActive ? 'bg-violet-50 text-violet-600 rounded-xl px-3' : ''} ${isVoice && isActive ? 'bg-violet-100 rounded-xl px-3' : ''}`}
             >
-              <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+              <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
               <span className="text-[11px] font-medium">{label}</span>
             </NavLink>
           )
         })}
       </nav>
-
-      {/* Spacer for mobile top header */}
-      <div className="md:hidden h-16 shrink-0" />
     </>
   )
 }

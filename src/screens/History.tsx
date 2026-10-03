@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../store'
-import { Card } from '../components/Card'
 import { MoodBadge } from '../components/MoodBadge'
 import { Button } from '../components/Button'
-import { Wind, MessageCircle, Smile, Leaf, Plus } from 'lucide-react'
+import { Wind, MessageCircle, Smile, Leaf, Plus, Sparkles, Activity } from 'lucide-react'
 import type { WellnessActivity } from '../types'
 
 const ACTIVITY_META: Record<WellnessActivity['type'], { icon: typeof Wind; color: string; bg: string }> = {
-  breathing: { icon: Wind,          color: 'text-blue-600',   bg: 'bg-blue-50'   },
-  chat:      { icon: MessageCircle, color: 'text-violet-600', bg: 'bg-violet-50' },
-  mood:      { icon: Smile,         color: 'text-emerald-600',bg: 'bg-emerald-50'},
-  grounding: { icon: Leaf,          color: 'text-green-600',  bg: 'bg-green-50'  },
+  breathing: { icon: Wind,          color: 'text-blue-500',   bg: 'bg-blue-50'   },
+  chat:      { icon: MessageCircle, color: 'text-violet-500', bg: 'bg-violet-50' },
+  mood:      { icon: Smile,         color: 'text-emerald-500',bg: 'bg-emerald-50'},
+  grounding: { icon: Leaf,          color: 'text-teal-500',   bg: 'bg-teal-50'   },
+  fusion:    { icon: Sparkles,      color: 'text-indigo-500', bg: 'bg-indigo-50' },
+  signal:    { icon: Activity,      color: 'text-amber-500',  bg: 'bg-amber-50'  },
 }
 
 function formatDate(iso: string) {
@@ -53,15 +54,15 @@ export function History() {
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
         <span className="text-5xl mb-4">🌱</span>
         <h2 className="text-xl font-bold text-gray-900 mb-2">Nothing here yet</h2>
-        <p className="text-gray-500 text-sm mb-8 max-w-xs">
+        <p className="text-gray-400 text-sm mb-8 max-w-xs">
           Your wellness history will appear here after your first mood check-in or activity.
         </p>
-        <div className="flex flex-col gap-2 w-full max-w-xs">
-          <Button onClick={() => navigate('/mood')} className="w-full">
-            <Plus size={16} /> Start a mood check-in
+        <div className="flex gap-2 justify-center flex-wrap">
+          <Button onClick={() => navigate('/mood')}>
+            <Plus size={15} /> Start a mood check-in
           </Button>
-          <Button variant="secondary" onClick={() => navigate('/breathing')} className="w-full">
-            <Wind size={16} /> Try a breathing exercise
+          <Button variant="secondary" onClick={() => navigate('/breathing')}>
+            <Wind size={15} /> Try a breathing exercise
           </Button>
         </div>
       </div>
@@ -69,30 +70,34 @@ export function History() {
   }
 
   return (
-    <div className="flex-1 p-5 md:p-8 pb-24 md:pb-8 max-w-2xl mx-auto w-full">
+    <div className="flex-1 p-4 md:p-8 pt-20 md:pt-8 pb-28 md:pb-8 max-w-2xl mx-auto w-full">
       <h1 className="text-2xl font-bold text-gray-900 mb-1">History</h1>
-      <p className="text-gray-500 text-sm mb-8">Your wellness journey over time.</p>
+      <p className="text-gray-400 text-sm mb-8">Your wellness journey over time.</p>
 
       {/* ── Mood check-ins ── */}
-      <section className="mb-10">
+      <section className="mb-8">
         <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
           Mood Check-ins
         </h2>
         {moodGroups.length === 0 ? (
-          <Card className="text-center py-8">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center shadow-xs">
             <p className="text-gray-400 text-sm mb-3">No mood check-ins yet.</p>
             <Button size="sm" variant="secondary" onClick={() => navigate('/mood')}>
               Check in now
             </Button>
-          </Card>
+          </div>
         ) : (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {moodGroups.map(({ label, items }) => (
               <div key={label}>
-                <p className="text-xs font-semibold text-gray-400 mb-2">{label}</p>
+                {/* Date label with left-border accent */}
+                <p className="text-xs font-semibold text-gray-400 mb-2 border-l-2 border-violet-200 pl-2">{label}</p>
                 <div className="flex flex-col gap-2">
                   {items.map(entry => (
-                    <Card key={entry.id}>
+                    <div
+                      key={entry.id}
+                      className="bg-white rounded-2xl border border-gray-100 px-4 py-3 shadow-xs"
+                    >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -100,11 +105,11 @@ export function History() {
                             <span className="text-xs text-gray-400">{formatTime(entry.timestamp)}</span>
                           </div>
                           {entry.note && (
-                            <p className="text-sm text-gray-600 mt-1 leading-relaxed">{entry.note}</p>
+                            <p className="text-sm text-gray-500 mt-1 leading-relaxed">{entry.note}</p>
                           )}
                         </div>
                       </div>
-                    </Card>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -113,28 +118,32 @@ export function History() {
         )}
       </section>
 
+      {/* Separator between sections */}
+      <hr className="border-gray-100 mb-8" />
+
       {/* ── Activity log ── */}
       <section>
         <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
           Activity Log
         </h2>
         {activityGroups.length === 0 ? (
-          <Card className="text-center py-8">
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center shadow-xs">
             <p className="text-gray-400 text-sm">No activities recorded yet.</p>
-          </Card>
+          </div>
         ) : (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {activityGroups.map(({ label, items }) => (
               <div key={label}>
-                <p className="text-xs font-semibold text-gray-400 mb-2">{label}</p>
-                <Card className="p-0 overflow-hidden divide-y divide-gray-50">
+                <p className="text-xs font-semibold text-gray-400 mb-2 border-l-2 border-violet-200 pl-2">{label}</p>
+                {/* Plain div instead of Card to avoid double-border */}
+                <div className="divide-y divide-gray-100 bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
                   {items.map(a => {
                     const meta = ACTIVITY_META[a.type]
                     const Icon = meta.icon
                     return (
                       <div key={a.id} className="flex items-center gap-3 px-4 py-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${meta.bg}`}>
-                          <Icon size={15} className={meta.color} />
+                          <Icon size={14} className={meta.color} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-800 truncate">{a.label}</p>
@@ -148,7 +157,7 @@ export function History() {
                       </div>
                     )
                   })}
-                </Card>
+                </div>
               </div>
             ))}
           </div>

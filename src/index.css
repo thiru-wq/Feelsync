@@ -1,55 +1,74 @@
 @import "tailwindcss";
 
 @theme {
-  /* AuraWell Design System - Premium Wellness Palette */
-  --color-bg: #FAFAF8;
-  --color-bg-warm: #F8F6F3;
-  --color-surface: #FFFFFF;
-  
-  /* Primary - Soft Lavender */
-  --color-lavender-50: #F5F3FF;
-  --color-lavender-100: #EDE9FE;
-  --color-lavender-200: #DDD6FE;
-  --color-lavender-300: #C4B5FD;
-  --color-lavender-400: #A78BFA;
-  --color-lavender-500: #8B5CF6;
-  --color-lavender-600: #7C3AED;
-  --color-lavender-700: #6D28D9;
-  
-  /* Soft Blue */
-  --color-blue-soft: #BFDBFE;
-  --color-blue-light: #EFF6FF;
-  
-  /* Mint */
-  --color-mint-50: #ECFDF5;
-  --color-mint-100: #D1FAE5;
-  --color-mint-200: #A7F3D0;
-  --color-mint-300: #6EE7B7;
-  
-  /* Peach */
-  --color-peach-50: #FFF7ED;
-  --color-peach-100: #FFEDD5;
-  --color-peach-200: #FED7AA;
-  
-  /* Text */
-  --color-text: #1E1B2E;
-  --color-text-muted: #6B7280;
-  --color-text-light: #9CA3AF;
-  --color-border: #E5E7EB;
-  
-  /* Typography */
+  /* ═══════════════════════════════════════════════════════
+     FeelSync Design System — Calm Wellness Palette
+  ═══════════════════════════════════════════════════════ */
+
+  /* ── Backgrounds ── */
+  --color-bg:          #FAFAF8;
+  --color-bg-warm:     #F8F6F3;
+  --color-surface:     #FFFFFF;
+
+  /* ── Primary — Violet (single canonical scale) ── */
+  --color-violet-50:   #F5F3FF;
+  --color-violet-100:  #EDE9FE;
+  --color-violet-200:  #DDD6FE;
+  --color-violet-300:  #C4B5FD;
+  --color-violet-400:  #A78BFA;
+  --color-violet-500:  #8B5CF6;
+  --color-violet-600:  #7C3AED;
+  --color-violet-700:  #6D28D9;
+  --color-violet-800:  #5B21B6;
+
+  /* ── Soft Blue ── */
+  --color-blue-soft:   #BFDBFE;
+  --color-blue-light:  #EFF6FF;
+
+  /* ── Mint / Emerald ── */
+  --color-mint-50:     #ECFDF5;
+  --color-mint-100:    #D1FAE5;
+  --color-mint-200:    #A7F3D0;
+  --color-mint-300:    #6EE7B7;
+
+  /* ── Peach / Orange ── */
+  --color-peach-50:    #FFF7ED;
+  --color-peach-100:   #FFEDD5;
+  --color-peach-200:   #FED7AA;
+
+  /* ── Text ── */
+  --color-text:        #1E1B2E;
+  --color-text-muted:  #6B7280;
+  --color-text-light:  #9CA3AF;
+
+  /* ── Borders ── */
+  --color-border:      #E5E7EB;
+  --color-border-subtle: #F0EFED;
+
+  /* ── Typography ── */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  
-  /* Spacing & Radius */
-  --radius-card: 1.5rem;
+
+  /* ── Spacing & Radius ── */
+  --radius-card:   1.5rem;
   --radius-button: 1rem;
-  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
-  
-  /* Transitions */
+
+  /* ── Shadows ── */
+  --shadow-xs:         0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card:       0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.10);
+
+  /* ── Transitions ── */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Easing tokens ── */
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
 
 * { box-sizing: border-box; }
 
@@ -66,8 +85,12 @@ body {
   min-height: 100svh;
 }
 
-/* ─── Animations ───────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   PREMIUM ANIMATION KEYFRAMES
+   All GPU-friendly: transform + opacity + filter only
+═══════════════════════════════════════════════════════════════════════════ */
 
+/* ── Breathing / Wellness ── */
 @keyframes breathe-in {
   0%   { transform: scale(1);    opacity: 0.7; }
   100% { transform: scale(1.45); opacity: 1;   }
@@ -76,49 +99,327 @@ body {
   0%   { transform: scale(1.45); opacity: 1;   }
   100% { transform: scale(1);    opacity: 0.7; }
 }
+
+/* ── Orb core — organic, not mechanical ── */
+@keyframes orb-breathe {
+  0%, 100% {
+    transform: scale(1);
+    filter: blur(0px) brightness(1);
+    box-shadow: 0 0 32px 8px rgba(139,92,246,0.22), 0 0 0 0 rgba(139,92,246,0);
+  }
+  40% {
+    transform: scale(1.04);
+    filter: blur(0px) brightness(1.06);
+    box-shadow: 0 0 48px 16px rgba(139,92,246,0.32), 0 0 80px 24px rgba(167,139,250,0.12);
+  }
+  70% {
+    transform: scale(1.02);
+    filter: blur(0px) brightness(1.03);
+    box-shadow: 0 0 40px 12px rgba(139,92,246,0.28), 0 0 60px 20px rgba(167,139,250,0.10);
+  }
+}
+
+/* ── Ambient glow ring — very slow, organic ── */
+@keyframes glow-ring {
+  0%, 100% { transform: scale(1);    opacity: 0.18; filter: blur(16px); }
+  50%       { transform: scale(1.15); opacity: 0.28; filter: blur(20px); }
+}
+
+/* ── Gradient ring — slow drift ── */
+@keyframes gradient-ring {
+  0%   { transform: rotate(0deg)   scale(1);    opacity: 0.5; }
+  50%  { transform: rotate(180deg) scale(1.04); opacity: 0.7; }
+  100% { transform: rotate(360deg) scale(1);    opacity: 0.5; }
+}
+
+/* ── Particle orbit — smooth elliptical ── */
+@keyframes particle-orbit {
+  0%   { transform: rotate(var(--orbit-start, 0deg))   translateX(var(--orbit-r, 40px)) scale(1);    opacity: 0.7; }
+  50%  { transform: rotate(calc(var(--orbit-start, 0deg) + 180deg)) translateX(var(--orbit-r, 40px)) scale(0.85); opacity: 0.4; }
+  100% { transform: rotate(calc(var(--orbit-start, 0deg) + 360deg)) translateX(var(--orbit-r, 40px)) scale(1);    opacity: 0.7; }
+}
+
+/* ── Signal flow — particles moving toward center ── */
+@keyframes signal-flow-in {
+  0%   { transform: translateX(var(--sx, 0)) translateY(var(--sy, 0)) scale(0.6); opacity: 0; }
+  20%  { opacity: 0.9; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateX(0) translateY(0) scale(0.3); opacity: 0; }
+}
+
+/* ── Fusion pulse — orb reacts when signals merge ── */
+@keyframes fusion-pulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 32px 8px rgba(139,92,246,0.22); }
+  30%  { transform: scale(1.12); box-shadow: 0 0 64px 24px rgba(139,92,246,0.45), 0 0 120px 40px rgba(167,139,250,0.20); }
+  60%  { transform: scale(1.06); box-shadow: 0 0 48px 16px rgba(139,92,246,0.35); }
+  100% { transform: scale(1);    box-shadow: 0 0 32px 8px rgba(139,92,246,0.22); }
+}
+
+/* ── Radial pulse ring — expands outward ── */
+@keyframes radial-pulse {
+  0%   { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0;   }
+}
+
+/* ── Float — gentle organic vertical drift ── */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px)   translateX(0px); }
+  25%       { transform: translateY(-6px)  translateX(2px); }
+  50%       { transform: translateY(-10px) translateX(-1px); }
+  75%       { transform: translateY(-5px)  translateX(3px); }
+}
+
+/* ── Ambient background drift ── */
+@keyframes ambient-drift {
+  0%, 100% { transform: translate(0, 0)     scale(1); }
+  33%       { transform: translate(20px, -15px) scale(1.05); }
+  66%       { transform: translate(-10px, 10px) scale(0.97); }
+}
+
+/* ── Page entrance — cinematic ── */
+@keyframes page-enter {
+  0%   { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(4px); }
+  60%  { filter: blur(0px); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);     filter: blur(0px); }
+}
+
+/* ── Card entrance — staggered ── */
+@keyframes card-enter {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.97); }
+  60%  { transform: translateY(-2px) scale(1.005); }
+  100% { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ── Splash phases ── */
+@keyframes splash-ambient-in {
+  0%   { opacity: 0; transform: scale(0.7); filter: blur(40px); }
+  100% { opacity: 1; transform: scale(1);   filter: blur(32px); }
+}
+
+@keyframes splash-core-in {
+  0%   { opacity: 0; transform: scale(0.3); filter: blur(8px); }
+  50%  { filter: blur(2px); }
+  70%  { transform: scale(1.08); }
+  85%  { transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1);   filter: blur(0px); }
+}
+
+@keyframes splash-orb-expand {
+  0%   { opacity: 0.6; transform: scale(0.85); filter: blur(2px); }
+  100% { opacity: 1;   transform: scale(1);    filter: blur(0px); }
+}
+
+@keyframes splash-signal-emerge {
+  0%   { opacity: 0; transform: translateX(var(--ex, 0)) translateY(var(--ey, 0)) scale(0.4); filter: blur(6px); }
+  50%  { filter: blur(1px); }
+  70%  { transform: translateX(calc(var(--ex, 0) * -0.05)) translateY(calc(var(--ey, 0) * -0.05)) scale(1.06); }
+  100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+}
+
+@keyframes splash-signal-converge {
+  0%   { opacity: 1; transform: translateX(0) translateY(0) scale(1); filter: blur(0px); }
+  60%  { opacity: 0.6; filter: blur(2px); }
+  100% { opacity: 0; transform: translateX(var(--cx, 0)) translateY(var(--cy, 0)) scale(0.2); filter: blur(8px); }
+}
+
+@keyframes splash-logo-reveal {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.94); filter: blur(4px); }
+  50%  { filter: blur(0px); }
+  70%  { transform: translateY(-2px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0px); }
+}
+
+@keyframes splash-tagline-in {
+  0%   { opacity: 0; transform: translateY(8px); letter-spacing: 0.3em; }
+  100% { opacity: 1; transform: translateY(0);   letter-spacing: 0.15em; }
+}
+
+@keyframes splash-out {
+  0%   { opacity: 1; transform: scale(1);    filter: blur(0px); }
+  100% { opacity: 0; transform: scale(1.04); filter: blur(6px); }
+}
+
+/* ── Scan line — premium biometric ── */
+@keyframes scan-sweep {
+  0%   { top: 2%;   opacity: 0;   }
+  5%   { opacity: 0.9; }
+  95%  { opacity: 0.7; }
+  100% { top: 98%;  opacity: 0;   }
+}
+
+/* ── HUD corner elements ── */
+@keyframes hud-corner-in {
+  0%   { opacity: 0; transform: scale(0.7); }
+  60%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Waveform bars ── */
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.15); opacity: 0.5; }
+  50%       { transform: scaleY(1);    opacity: 1;   }
+}
+
+/* ── Pulse ring ── */
 @keyframes pulse-ring {
-  0%   { transform: scale(1);    opacity: 0.35; }
+  0%   { transform: scale(1);    opacity: 0.4; }
   50%  { transform: scale(1.18); opacity: 0.12; }
-  100% { transform: scale(1);    opacity: 0.35; }
+  100% { transform: scale(1);    opacity: 0.4; }
 }
-@keyframes wave {
-  0%,100% { transform: scaleY(0.4); }
-  50%      { transform: scaleY(1);   }
+
+/* ── Done pop ── */
+@keyframes done-pop {
+  0%   { transform: scale(0.6); opacity: 0; filter: blur(4px); }
+  50%  { transform: scale(1.12); filter: blur(0px); }
+  70%  { transform: scale(0.96); }
+  100% { transform: scale(1);   opacity: 1; filter: blur(0px); }
 }
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0);   }
+
+/* ── Mood card select ── */
+@keyframes mood-select {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.08); }
+  70%  { transform: scale(0.98); }
+  100% { transform: scale(1.05); }
 }
+
+/* ── Success flash ── */
+@keyframes success-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+  40%  { box-shadow: 0 0 0 8px rgba(52,211,153,0.25); }
+  100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+}
+
+/* ── Gradient background shift ── */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* ── Spin slow ── */
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
-@keyframes done-pop {
-  0%   { transform: scale(0.8); opacity: 0; }
-  60%  { transform: scale(1.08); }
-  100% { transform: scale(1);   opacity: 1; }
+
+/* ── Fade in ── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%      { transform: translateY(-10px); }
+
+/* ── Breathing circle ── */
+@keyframes breathe-circle-in {
+  0%   { transform: scale(1);    opacity: 0.7; }
+  100% { transform: scale(1.45); opacity: 1;   }
 }
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50%      { background-position: 100% 50%; }
+@keyframes breathe-circle-out {
+  0%   { transform: scale(1.45); opacity: 1;   }
+  100% { transform: scale(1);    opacity: 0.7; }
 }
+
+/* ── Micro press ── */
+@keyframes btn-press {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+/* ── Nav indicator slide ── */
+@keyframes nav-indicator {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* ── Particle twinkle ── */
+@keyframes particle-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50%       { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* ── Shimmer ── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+═══════════════════════════════════════════════════════════════════════════ */
 
 .animate-breathe-in  { animation: breathe-in  var(--duration,4s) ease-in-out forwards; }
 .animate-breathe-out { animation: breathe-out var(--duration,6s) ease-in-out forwards; }
-.animate-pulse-ring  { animation: pulse-ring 2.8s ease-in-out infinite; }
-.animate-wave        { animation: wave 1.2s ease-in-out infinite; }
-.animate-fade-in     { animation: fade-in 0.35s ease both; }
+.animate-pulse-ring  { animation: pulse-ring 3s ease-in-out infinite; }
+.animate-wave        { animation: wave-bar 1.2s ease-in-out infinite; }
+.animate-fade-in     { animation: fade-in 0.4s var(--ease-cinematic, cubic-bezier(0.22,1,0.36,1)) both; }
 .animate-spin-slow   { animation: spin-slow 8s linear infinite; }
-.animate-done-pop    { animation: done-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
-.animate-float       { animation: float 6s ease-in-out infinite; }
+.animate-done-pop    { animation: done-pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-float       { animation: float-gentle 7s ease-in-out infinite; }
+.animate-orb-breathe { animation: orb-breathe 4.5s ease-in-out infinite; }
+.animate-orb-pulse   { animation: orb-breathe 4.5s ease-in-out infinite; }
+.animate-orb-rotate  { animation: gradient-ring 18s linear infinite; }
+.animate-glow-ring   { animation: glow-ring 5s ease-in-out infinite; }
+.animate-radial-pulse { animation: radial-pulse 1.8s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1)) forwards; }
+.animate-page-in     { animation: page-enter 0.55s var(--ease-cinematic, cubic-bezier(0.22,1,0.36,1)) both; }
+.animate-card-in     { animation: card-enter 0.5s var(--ease-cinematic, cubic-bezier(0.22,1,0.36,1)) both; }
+.animate-scan-line   { animation: scan-sweep 2.2s ease-in-out infinite; }
+.animate-hud-in      { animation: hud-corner-in 0.4s var(--ease-spring, cubic-bezier(0.34,1.56,0.64,1)) both; }
+.animate-waveform    { animation: wave-bar 1s ease-in-out infinite; }
+.animate-ambient     { animation: ambient-drift 12s ease-in-out infinite; }
+.animate-gradient-shift { animation: gradient-shift 6s ease infinite; background-size: 200% 200%; }
+.animate-particle-twinkle { animation: particle-twinkle 3s ease-in-out infinite; }
+.animate-fusion-pulse { animation: fusion-pulse 1.2s var(--ease-out-expo, cubic-bezier(0.16,1,0.3,1)) both; }
+.animate-success-flash { animation: success-flash 0.6s ease both; }
 
-/* ─── Utility Classes ──────────────────────────────────────────────────────── */
+/* ── Staggered card entrance ── */
+.card-stagger > * { animation: card-enter 0.5s var(--ease-cinematic, cubic-bezier(0.22,1,0.36,1)) both; }
+.card-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.card-stagger > *:nth-child(2) { animation-delay: 70ms; }
+.card-stagger > *:nth-child(3) { animation-delay: 140ms; }
+.card-stagger > *:nth-child(4) { animation-delay: 210ms; }
+.card-stagger > *:nth-child(5) { animation-delay: 280ms; }
+.card-stagger > *:nth-child(6) { animation-delay: 350ms; }
+.card-stagger > *:nth-child(7) { animation-delay: 420ms; }
+.card-stagger > *:nth-child(8) { animation-delay: 490ms; }
 
-.gradient-lavender {
+/* ── Button interactions ── */
+.btn-press:active { animation: btn-press 0.18s ease; }
+
+/* ── Hover lift — premium shadow transition ── */
+.hover-lift {
+  transition: transform 280ms cubic-bezier(0.22,1,0.36,1), box-shadow 280ms cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(139,92,246,0.08);
+}
+.hover-lift:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* ── Card hover — subtle elevation ── */
+.card-hover {
+  transition: transform 280ms cubic-bezier(0.22,1,0.36,1), box-shadow 280ms cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.09), 0 2px 8px rgba(139,92,246,0.06);
+}
+
+/* ── Shimmer loading ── */
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GRADIENT UTILITIES
+═══════════════════════════════════════════════════════════════════════════ */
+
+.gradient-violet {
   background: linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 50%, #EDE9FE 100%);
 }
 
@@ -126,21 +427,50 @@ body {
   background: linear-gradient(135deg, #F5F3FF 0%, #EFF6FF 50%, #ECFDF5 100%);
 }
 
-.gradient-card {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FAFAF8 100%);
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.18);
 }
 
-.shadow-glow {
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+.shadow-glow-lg {
+  box-shadow: 0 0 80px rgba(139, 92, 246, 0.25), 0 0 160px rgba(167, 139, 250, 0.10);
 }
 
 .transition-smooth {
   transition: all var(--transition-base);
 }
 
-/* ─── Reduced Motion ───────────────────────────────────────────────────────── */
+/* ── Orb glow layers ── */
+.orb-ambient {
+  background: radial-gradient(circle, rgba(167,139,250,0.35) 0%, rgba(139,92,246,0.12) 50%, transparent 70%);
+  filter: blur(20px);
+  animation: glow-ring 5s ease-in-out infinite;
+}
+
+.orb-energy-ring {
+  background: conic-gradient(
+    from 0deg,
+    rgba(139,92,246,0.0) 0%,
+    rgba(167,139,250,0.6) 25%,
+    rgba(196,181,253,0.8) 50%,
+    rgba(167,139,250,0.6) 75%,
+    rgba(139,92,246,0.0) 100%
+  );
+  animation: gradient-ring 8s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .animate-breathe-in,
   .animate-breathe-out,
   .animate-pulse-ring,
@@ -148,29 +478,46 @@ body {
   .animate-fade-in,
   .animate-spin-slow,
   .animate-done-pop,
-  .animate-float {
+  .animate-float,
+  .animate-orb-breathe,
+  .animate-orb-pulse,
+  .animate-orb-rotate,
+  .animate-glow-ring,
+  .animate-radial-pulse,
+  .animate-page-in,
+  .animate-card-in,
+  .animate-scan-line,
+  .animate-hud-in,
+  .animate-waveform,
+  .animate-ambient,
+  .animate-gradient-shift,
+  .animate-particle-twinkle,
+  .animate-fusion-pulse,
+  .animate-success-flash,
+  .card-stagger > * {
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
-  .breathing-circle { transition: none !important; }
+
+  .breathing-circle,
+  .hover-lift,
+  .card-hover { transition: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLLBAR / FOCUS / SHADOW UTILITIES
+═══════════════════════════════════════════════════════════════════════════ */
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ─── Focus States ─────────────────────────────────────────────────────────── */
-
 .focus-ring:focus-visible {
-  outline: 2px solid var(--color-lavender-500);
+  outline: 2px solid #7C3AED;
   outline-offset: 2px;
 }
 
-/* ─── Card Hover Effects ───────────────────────────────────────────────────── */
-
-.card-hover {
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover);
+.shadow-xs {
+  box-shadow: var(--shadow-xs);
 }

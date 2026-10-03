@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useState } from 'react'
 import { AppProvider } from './store'
 import { Nav } from './components/Nav'
+import { SplashScreen, shouldShowSplash } from './components/SplashScreen'
 import { Landing } from './screens/Landing'
 import { Onboarding } from './screens/Onboarding'
 import { Dashboard } from './screens/Dashboard'
@@ -9,6 +11,11 @@ import { Companion } from './screens/Companion'
 import { Breathing } from './screens/Breathing'
 import { Grounding } from './screens/Grounding'
 import { Signals } from './screens/Signals'
+import { FaceScreen } from './screens/signals/FaceScreen'
+import { VoiceScreen } from './screens/signals/VoiceScreen'
+import { EEGScreen } from './screens/signals/EEGScreen'
+import { GSRScreen } from './screens/signals/GSRScreen'
+import { FusionScreen } from './screens/signals/FusionScreen'
 import { Summary } from './screens/Summary'
 import { History } from './screens/History'
 import { VoiceAssistant } from './screens/VoiceAssistant'
@@ -20,26 +27,35 @@ function AppShell() {
       <Nav />
       <div className="flex-1 flex flex-col bg-[#faf9f7] overflow-y-auto">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/mood"      element={<MoodCheckin />} />
-          <Route path="/companion" element={<Companion />} />
-          <Route path="/breathing" element={<Breathing />} />
-          <Route path="/grounding" element={<Grounding />} />
-          <Route path="/signals"   element={<Signals />} />
-          <Route path="/summary"   element={<Summary />} />
-          <Route path="/history"   element={<History />} />
-          <Route path="/voice"     element={<VoiceAssistant />} />
-          <Route path="/profile"   element={<Profile />} />
-          <Route path="*"          element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard"      element={<Dashboard />} />
+          <Route path="/mood"           element={<MoodCheckin />} />
+          <Route path="/companion"      element={<Companion />} />
+          <Route path="/breathing"      element={<Breathing />} />
+          <Route path="/grounding"      element={<Grounding />} />
+          <Route path="/signals"        element={<Signals />} />
+          <Route path="/signals/face"   element={<FaceScreen />} />
+          <Route path="/signals/voice"  element={<VoiceScreen />} />
+          <Route path="/signals/eeg"    element={<EEGScreen />} />
+          <Route path="/signals/gsr"    element={<GSRScreen />} />
+          <Route path="/signals/fusion" element={<FusionScreen />} />
+          <Route path="/summary"        element={<Summary />} />
+          <Route path="/history"        element={<History />} />
+          <Route path="/voice"          element={<VoiceAssistant />} />
+          <Route path="/profile"        element={<Profile />} />
+          <Route path="*"               element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </div>
   )
 }
 
+
 export default function App() {
+  const [splashDone, setSplashDone] = useState(() => !shouldShowSplash())
+
   return (
     <AppProvider>
+      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <BrowserRouter>
         <Routes>
           <Route path="/"           element={<Landing />} />
