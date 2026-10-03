@@ -25,7 +25,7 @@ export function AnimatedWaveform({
 }: Props) {
   const barsRef = useRef<(HTMLSpanElement | null)[]>([])
   const rafRef  = useRef<number>(0)
-  const dataRef = useRef<Uint8Array | null>(null)
+  const dataRef = useRef<Uint8Array<ArrayBuffer> | null>(null)
 
   useEffect(() => {
     if (!analyser || !active) {
@@ -35,7 +35,7 @@ export function AnimatedWaveform({
 
     analyser.fftSize = 64
     const bufferLength = analyser.frequencyBinCount
-    dataRef.current = new Uint8Array(bufferLength)
+    dataRef.current = new Uint8Array(new ArrayBuffer(bufferLength))
 
     const draw = () => {
       rafRef.current = requestAnimationFrame(draw)
